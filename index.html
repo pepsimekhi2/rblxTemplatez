@@ -759,16 +759,16 @@
     }
 
     function getRole(){
-      return currentProfile?.role || "customer";
-    }
+  return String(currentProfile?.role || "customer").trim().toLowerCase();
+}
 
-    function isAdmin(){
-      return getRole() === "admin";
-    }
+function isAdmin(){
+  return getRole() === "admin";
+}
 
-    function canSell(){
-      return getRole() === "seller" || getRole() === "admin";
-    }
+function canSell(){
+  return getRole() === "seller" || getRole() === "admin";
+}
 
     function setAuthMode(mode){
       authMode = mode;
@@ -782,53 +782,60 @@
     }
 
     async function handleAuth(){
-      const email = document.getElementById("authEmail").value.trim();
-      const password = document.getElementById("authPassword").value;
-      const username = document.getElementById("signupUsername").value.trim();
+  const email = document.getElementById("authEmail").value.trim();
+  const password = document.getElementById("authPassword").value;
+  const username = document.getElementById("signupUsername").value.trim();
 
-      if(authMode === "signin"){
-        if(!email || !password){ showErr("Enter your email and password."); return; }
-        try{
-          await auth.signInWithEmailAndPassword(email, password);
-          showToast("Signed in.");
-        }catch(err){
-          showErr(err.message || "Sign in failed.");
-        }
-        return;
-      }
-
-      if(!username || !email || !password){
-        showErr("Username, email, and password are required.");
-        return;
-      }
-
-      const usernameKey = username.toLowerCase();
-      try{
-        const existing = await db.ref("usernames/" + usernameKey).once("value");
-        if(existing.exists()){
-          showErr("That username is already taken.");
-          return;
-        }
-
-        const cred = await auth.createUserWithEmailAndPassword(email, password);
-        const uid = cred.user.uid;
-        const profile = {
-          uid,
-          username,
-          usernameLower: usernameKey,
-          email,
-          role: "customer",
-          createdAt: firebase.database.ServerValue.TIMESTAMP
-        };
-
-        await db.ref("users/" + uid).set(profile);
-        await db.ref("usernames/" + usernameKey).set(uid);
-
-        showToast("Account created.");
-      }catch(err){
-        showErr(err.message || "Sign up failed.");
-      }
+  if(authMode === "signin"){
+    if(!email || !password){
+      showErr("Enter your email and password.");
+      return;
     }
+
+    try{
+      await auth.signInWithEmailAndPassword(email, password);
+      showToast("Signed in.");
+      location.hash = "#/store";
+    }catch(err){
+      showErr(err.message || "Sign in failed.");
+    }
+    return;
+  }
+
+  if(!username || !email || !password){
+    showErr("Username, email, and password are required.");
+    return;
+  }
+
+  const usernameKey = username.toLowerCase();
+
+  try{
+    const existing = await db.ref("usernames/" + usernameKey).once("value");
+    if(existing.exists()){
+      showErr("That username is already taken.");
+      return;
+    }
+
+    const cred = await auth.createUserWithEmailAndPassword(email, password);
+    const uid = cred.user.uid;
+
+    await db.ref("users/" + uid).set({
+      uid,
+      username,
+      usernameLower: usernameKey,
+      email,
+      role: "customer",
+      createdAt: firebase.database.ServerValue.TIMESTAMP
+    });
+
+    await db.ref("usernames/" + usernameKey).set(uid);
+
+    showToast("Account created.");
+    location.hash = "#/store";
+  }catch(err){
+    showErr(err.message || "Sign up failed.");
+  }
+}
 
     async function loadEverything(){
       const [usersSnap, productsSnap, ordersSnap] = await Promise.all([
@@ -886,21 +893,26 @@
     }
 
     function renderStoreNav(){
-      const nav = document.getElementById("storeNav");
-      const dashBtn = document.getElementById("dashBtn");
+  const nav = document.getElementById("storeNav");
+  const dashBtn = document.getElementById("dashBtn");
 
-      if(currentUser && currentProfile){
-        nav.innerHTML = `
-          <span style="font-size:12px;font-weight:800;color:var(--acc)">● ${escapeHtml(currentProfile.username)}</span>
-          <button class="btn-ghost" onclick="goDashboard()">Dashboard</button>
-          <button class="btn-blue" onclick="doLogout()">Log Out</button>
-        `;
-        dashBtn.style.display = "block";
-      }else{
-        nav.innerHTML = `<button class="btn-ghost" onclick="goAuth()">Sign In / Sign Up</button>`;
-        dashBtn.style.display = "none";
-      }
-    }
+  if(currentUser){
+    const displayName =
+      currentProfile?.username ||
+      currentUser.email?.split("@")[0] ||
+      "Account";
+
+    nav.innerHTML = `
+      <span style="font-size:12px;font-weight:800;color:var(--acc)">● ${escapeHtml(displayName)}</span>
+      <button class="btn-ghost" onclick="goDashboard()">Dashboard</button>
+      <button class="btn-blue" onclick="doLogout()">Log Out</button>
+    `;
+    dashBtn.style.display = "block";
+  } else {
+    nav.innerHTML = `<button class="btn-ghost" onclick="goAuth()">Sign In / Sign Up</button>`;
+    dashBtn.style.display = "none";
+  }
+}
 
     function getCategoryName(cat){
       return cat === "ui" ? "UI Kit" : cat === "sys" ? "System" : cat === "game" ? "Full Game" : "Product";
@@ -1497,26 +1509,30 @@
     }
 
     function renderDashboard(){
-      const title = document.getElementById("dashTitle");
-      const sub = document.getElementById("dashSub");
+  const title = document.getElementById("dashTitle");
+  const sub = document.getElementById("dashSub");
 
-      if(!currentProfile){
-        title.textContent = "Dashboard";
-        sub.textContent = "";
-      }else{
-        title.textContent = currentProfile.username + "'s Dashboard";
-        sub.textContent = isAdmin()
-          ? "Admin access: manage users, products, and orders"
-          : canSell()
-          ? "Seller access: upload products and track orders"
-          : "Customer access: view order status and download completed files";
-      }
+  if(!currentProfile){
+    title.textContent = "Dashboard";
+    sub.textContent = "No profile loaded";
+  }else{
+    title.textContent = currentProfile.username + "'s Dashboard";
+    sub.textContent = `Role: ${getRole()}`;
 
-      document.getElementById("sellerUploadSection").classList.toggle("hidden", !canSell());
-      renderUsers();
-      renderOwnedProducts();
-      renderOrders();
+    if(isAdmin()){
+      sub.textContent += " | Admin access: manage users, products, and orders";
+    }else if(canSell()){
+      sub.textContent += " | Seller access: upload products and track orders";
+    }else{
+      sub.textContent += " | Customer access: view order status and downloads";
     }
+  }
+
+  document.getElementById("sellerUploadSection").classList.toggle("hidden", !canSell());
+  renderUsers();
+  renderOwnedProducts();
+  renderOrders();
+}
 
     function renderAuthPage(){
       setAuthMode(authMode);
@@ -1524,11 +1540,16 @@
 
     async function route(){
       const hash = location.hash || "#/store";
-
+	
+	if(hash === "#/auth" && currentUser){
+  location.hash = "#/store";
+  return;
+}
       if(hash === "#/auth"){
         showPage("authPage");
         renderAuthPage();
         return;
+	
       }
 
       if(hash === "#/dashboard"){
@@ -1557,14 +1578,31 @@
       document.getElementById(id).classList.add("active");
     }
 
-    auth.onAuthStateChanged(async user=>{
-      currentUser = user;
-      currentProfile = null;
-      lastTrackedProductId = null;
-      await loadEverything();
-      await route();
-    });
+auth.onAuthStateChanged(async user=>{
+  currentUser = user;
+  currentProfile = null;
+  lastTrackedProductId = null;
 
+  if(currentUser){
+    const profileSnap = await db.ref("users/" + currentUser.uid).once("value");
+    currentProfile = profileSnap.val();
+  }
+
+  await loadEverything();
+  renderStoreNav();
+
+  if(user && (!location.hash || location.hash === "#/auth")){
+    location.hash = "#/store";
+    return;
+  }
+
+  if(!user && location.hash === "#/dashboard"){
+    location.hash = "#/auth";
+    return;
+  }
+
+  await route();
+});
     window.addEventListener("hashchange", route);
 
     document.addEventListener("keydown", e=>{
