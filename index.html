@@ -3,7 +3,55 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Templatez</title>
+
+  <title>Templatez - Roblox UI Kits, Systems, and Full Game Templates</title>
+  <meta name="description" content="Buy premium Roblox UI kits, systems, and full game templates on Templatez. Browse creator-made assets, place orders, and download completed purchases." />
+  <meta name="keywords" content="Roblox templates, Roblox UI kits, Roblox systems, Roblox full game templates, Roblox marketplace, Templatez" />
+  <meta name="author" content="Templatez" />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+  <meta name="theme-color" content="#060912" />
+
+  <link rel="icon" type="image/png" href="/logo-favicon.png" />
+  <link rel="apple-touch-icon" href="/logo-favicon.png" />
+  <link rel="canonical" href="/" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Templatez" />
+  <meta property="og:title" content="Templatez - Roblox UI Kits, Systems, and Full Game Templates" />
+  <meta property="og:description" content="Buy premium Roblox UI kits, systems, and full game templates on Templatez." />
+  <meta property="og:url" content="/" />
+  <meta property="og:image" content="/logo-favicon.png" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Templatez - Roblox UI Kits, Systems, and Full Game Templates" />
+  <meta name="twitter:description" content="Buy premium Roblox UI kits, systems, and full game templates on Templatez." />
+  <meta name="twitter:image" content="/logo-favicon.png" />
+
+  <script type="application/ld+json" id="orgSchema">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Templatez",
+    "url": "/",
+    "logo": "/logo-favicon.png"
+  }
+  </script>
+
+  <script type="application/ld+json" id="siteSchema">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Templatez",
+    "url": "/"
+  }
+  </script>
+
+  <script type="application/ld+json" id="productSchema">
+  {
+    "@context": "https://schema.org"
+  }
+  </script>
+
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Space+Mono:wght@400;700&display=swap');
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -12,53 +60,58 @@
       --s1:#0b1120;
       --s2:#0f1929;
       --s3:#152035;
-      --bdr:rgba(100,160,255,0.10);
-      --bdr2:rgba(100,160,255,0.20);
-      --bdr3:rgba(100,160,255,0.35);
+      --bdr:rgba(100,160,255,.1);
+      --bdr2:rgba(100,160,255,.2);
+      --bdr3:rgba(100,160,255,.35);
       --txt:#e8f0ff;
       --mut:#5a7aaa;
       --mut2:#8aaad8;
       --acc:#4d9fff;
       --acc2:#7bbfff;
-      --accd:rgba(77,159,255,0.15);
-      --accl:rgba(77,159,255,0.08);
+      --accd:rgba(77,159,255,.15);
+      --accl:rgba(77,159,255,.08);
       --ok:#22c55e;
-      --okbg:rgba(34,197,94,0.12);
+      --okbg:rgba(34,197,94,.12);
       --warn:#f59e0b;
-      --warnbg:rgba(245,158,11,0.12);
+      --warnbg:rgba(245,158,11,.12);
       --bad:#ff7b7b;
-      --badbg:rgba(255,123,123,0.12);
+      --badbg:rgba(255,123,123,.12);
       --body:'Nunito',sans-serif;
       --mono:'Space Mono',monospace;
-      --glow:0 0 20px rgba(77,159,255,0.25);
+      --glow:0 0 20px rgba(77,159,255,.25);
     }
     body{background:var(--bg);color:var(--txt);font-family:var(--body);font-size:15px;overflow-x:hidden}
     .page{display:none}
     .page.active{display:block}
+    .hidden{display:none !important}
+
     @keyframes pulse{0%,100%{opacity:.6}50%{opacity:1}}
     @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
     @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
-    @keyframes glowPulse{0%,100%{box-shadow:0 0 12px rgba(77,159,255,0.2)}50%{box-shadow:0 0 28px rgba(77,159,255,0.45)}}
+    @keyframes glowPulse{0%,100%{box-shadow:0 0 12px rgba(77,159,255,.2)}50%{box-shadow:0 0 28px rgba(77,159,255,.45)}}
 
     nav{
       display:flex;align-items:center;justify-content:space-between;
       padding:0 40px;height:66px;background:rgba(6,9,18,.86);
       backdrop-filter:blur(16px);border-bottom:1px solid var(--bdr);
-      position:sticky;top:0;z-index:50;gap:16px;
+      position:sticky;top:0;z-index:50;gap:16px
     }
-    .logo{font-size:26px;font-weight:900;letter-spacing:-.5px;cursor:pointer;color:var(--txt)}
+    .logo{
+      display:flex;align-items:center;gap:10px;
+      font-size:26px;font-weight:900;letter-spacing:-.5px;cursor:pointer;color:var(--txt)
+    }
     .logo em{color:var(--acc);font-style:normal;text-shadow:0 0 16px rgba(77,159,255,.7)}
+    .logo-img{width:34px;height:34px;object-fit:contain;border-radius:10px;flex-shrink:0}
     .nav-links{display:flex;gap:8px}
     .nav-links button{
-      background:none;border:none;color:var(--mut2);font-family:var(--body);
-      font-size:14px;font-weight:700;cursor:pointer;padding:7px 14px;border-radius:20px;transition:.2s;
+      background:none;border:none;color:var(--mut2);
+      font-size:14px;font-weight:700;cursor:pointer;padding:7px 14px;border-radius:20px;transition:.2s
     }
     .nav-links button:hover,.nav-links button.active{background:var(--accd);color:var(--acc)}
     .nav-r{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
 
     .btn-ghost,.btn-blue,.btn-bad{
-      padding:9px 18px;border-radius:24px;font-family:var(--body);
-      font-size:13px;font-weight:800;cursor:pointer;transition:.2s;
+      padding:9px 18px;border-radius:24px;font-size:13px;font-weight:800;cursor:pointer;transition:.2s;font-family:var(--body)
     }
     .btn-ghost{background:none;border:1px solid var(--bdr2);color:var(--txt)}
     .btn-ghost:hover{border-color:var(--acc);color:var(--acc);background:var(--accl)}
@@ -69,23 +122,23 @@
 
     .login-wrap{
       min-height:calc(100vh - 66px);display:flex;align-items:center;justify-content:center;
-      padding:40px 20px;position:relative;
+      padding:40px 20px;position:relative
     }
     .login-bg{
       position:absolute;inset:0;
       background:
         radial-gradient(ellipse 600px 400px at 30% 50%, rgba(77,159,255,.06) 0%, transparent 70%),
         radial-gradient(ellipse 400px 300px at 70% 30%, rgba(77,159,255,.04) 0%, transparent 60%);
-      pointer-events:none;
+      pointer-events:none
     }
     .login-box{
       width:100%;max-width:460px;background:var(--s1);border:1px solid var(--bdr2);
-      border-radius:22px;overflow:hidden;position:relative;animation:glowPulse 3s ease-in-out infinite;
+      border-radius:22px;overflow:hidden;animation:glowPulse 3s ease-in-out infinite
     }
     .lb-top{padding:36px 36px 26px;border-bottom:1px solid var(--bdr);text-align:center}
     .lb-icon{
       width:60px;height:60px;border-radius:18px;background:var(--accd);border:1px solid var(--bdr2);
-      display:flex;align-items:center;justify-content:center;font-size:26px;margin:0 auto 16px;animation:float 3s ease-in-out infinite;
+      display:flex;align-items:center;justify-content:center;font-size:26px;margin:0 auto 16px;animation:float 3s ease-in-out infinite
     }
     .lb-title{font-size:26px;font-weight:900;margin-bottom:4px}
     .lb-sub{font-size:13px;color:var(--mut2);font-weight:600}
@@ -96,6 +149,7 @@
       padding:11px 14px;border-radius:12px;font-weight:800;cursor:pointer;transition:.2s
     }
     .auth-tabs button.on{background:var(--accd);border-color:var(--bdr3);color:var(--acc)}
+
     .fg{margin-bottom:16px}
     .flbl{
       display:block;font-size:12px;font-weight:800;letter-spacing:.06em;
@@ -103,8 +157,7 @@
     }
     .fi,.fi-sm,.ta-sm{
       width:100%;background:var(--s2);border:1px solid var(--bdr2);color:var(--txt);
-      border-radius:12px;padding:13px 16px;font-family:var(--body);font-size:15px;font-weight:600;
-      outline:none;transition:.2s
+      border-radius:12px;padding:13px 16px;font-size:15px;font-weight:600;outline:none;transition:.2s;font-family:var(--body)
     }
     .fi-sm{padding:11px 14px;font-size:14px;border-radius:10px}
     .ta-sm{min-height:94px;resize:vertical}
@@ -134,19 +187,16 @@
     }
     .hero-tag::before{content:'●';font-size:7px;animation:pulse 2s infinite}
     .hero-h{
-      font-size:clamp(52px,7vw,84px);font-weight:900;line-height:1;letter-spacing:-2px;
-      margin-bottom:20px;animation:fadeUp .6s .1s ease both
+      font-size:clamp(52px,7vw,84px);font-weight:900;line-height:1;letter-spacing:-2px;margin-bottom:20px;animation:fadeUp .6s .1s ease both
     }
     .hero-h .glow{color:var(--acc);text-shadow:0 0 30px rgba(77,159,255,.5),0 0 60px rgba(77,159,255,.2)}
     .hero-sub{
-      font-size:17px;font-weight:600;color:var(--mut2);max-width:620px;margin:0 auto 36px;
-      line-height:1.7;animation:fadeUp .6s .2s ease both
+      font-size:17px;font-weight:600;color:var(--mut2);max-width:620px;margin:0 auto 36px;line-height:1.7;animation:fadeUp .6s .2s ease both
     }
     .hero-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;animation:fadeUp .6s .3s ease both;margin-bottom:52px}
     .hero-btns .btn-blue,.hero-btns .btn-ghost{padding:13px 28px;font-size:15px;border-radius:28px}
     .hero-stats{
-      display:inline-flex;background:var(--s1);border:1px solid var(--bdr2);border-radius:20px;overflow:hidden;
-      animation:fadeUp .6s .4s ease both
+      display:inline-flex;background:var(--s1);border:1px solid var(--bdr2);border-radius:20px;overflow:hidden;animation:fadeUp .6s .4s ease both
     }
     .stat{padding:18px 32px;border-right:1px solid var(--bdr);text-align:center}
     .stat:last-child{border-right:none}
@@ -170,6 +220,7 @@
     .sec-title{font-size:28px;font-weight:900;letter-spacing:-.5px}
     .sec-sub{font-size:13px;font-weight:700;color:var(--mut)}
     .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
+
     .tcard{
       background:var(--s1);border:1px solid var(--bdr);border-radius:16px;overflow:hidden;
       cursor:pointer;display:flex;flex-direction:column;transition:.2s;animation:fadeUp .4s ease both
@@ -206,8 +257,7 @@
     }
 
     .empty{
-      background:var(--s1);border:1px solid var(--bdr);border-radius:18px;
-      padding:30px;text-align:center;color:var(--mut2)
+      background:var(--s1);border:1px solid var(--bdr);border-radius:18px;padding:30px;text-align:center;color:var(--mut2)
     }
     .empty h3{font-size:22px;font-weight:900;color:var(--txt);margin-bottom:10px}
     .empty p{font-size:14px;line-height:1.8}
@@ -271,7 +321,6 @@
     .action-row{display:flex;gap:8px;flex-wrap:wrap}
     .upload-card{background:var(--s1);border:1px solid var(--bdr);border-radius:16px;padding:28px}
     .upload-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
-    .hidden{display:none !important}
 
     .modal-wrap{
       position:fixed;inset:0;display:none;align-items:center;justify-content:center;
@@ -291,9 +340,7 @@
     .modal-title{font-size:28px;font-weight:900;letter-spacing:-.5px}
     .modal-kicker{font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--acc);margin-bottom:8px}
     .modal-sub{font-size:13px;font-weight:600;color:var(--mut2);margin-top:6px;line-height:1.6}
-    .modal-close{
-      margin-left:auto;background:none;border:none;color:var(--mut2);cursor:pointer;font-size:24px;line-height:1;padding:0
-    }
+    .modal-close{margin-left:auto;background:none;border:none;color:var(--mut2);cursor:pointer;font-size:24px;line-height:1;padding:0}
     .modal-body{padding:24px 28px 28px}
     .pay-box{
       background:var(--s2);border:1px solid var(--bdr2);border-radius:16px;padding:18px;margin-bottom:16px
@@ -350,7 +397,10 @@
 
   <div id="authPage" class="page">
     <nav>
-      <div class="logo" onclick="goStore()">Template<em>z</em></div>
+      <div class="logo" onclick="goStore()">
+        <img src="/logo-favicon.png" alt="Templatez logo" class="logo-img" />
+        <span>Template<em>z</em></span>
+      </div>
       <div class="nav-r"><span style="font-size:12px;font-weight:700;color:var(--mut);letter-spacing:.06em;text-transform:uppercase">Account Access</span></div>
     </nav>
     <div class="login-wrap">
@@ -375,7 +425,7 @@
           </div>
 
           <div class="fg">
-            <label class="flbl" id="emailLabel">Email</label>
+            <label class="flbl">Email</label>
             <input class="fi" id="authEmail" type="email" placeholder="you@example.com" autocomplete="off" />
           </div>
 
@@ -397,7 +447,10 @@
 
   <div id="storePage" class="page">
     <nav>
-      <div class="logo" onclick="goStore()">Template<em>z</em></div>
+      <div class="logo" onclick="goStore()">
+        <img src="/logo-favicon.png" alt="Templatez logo" class="logo-img" />
+        <span>Template<em>z</em></span>
+      </div>
       <div class="nav-links">
         <button class="active" onclick="filterCat('all')">All</button>
         <button onclick="filterCat('ui')">UI Kits</button>
@@ -412,11 +465,12 @@
       <div style="position:relative;z-index:1">
         <div class="hero-tag">Roblox Template Marketplace</div>
         <h1 class="hero-h">Build Games<br><span class="glow">Way Faster.</span></h1>
-        <p class="hero-sub">Each product opens its own route with images, price, seller, description, and a real order flow backed by Firebase.</p>
+        <p class="hero-sub">Each product has its own SEO-friendly page with images, seller info, price, description, and an order flow powered by Firebase.</p>
         <div class="hero-btns">
           <button class="btn-blue" onclick="document.querySelector('.grid-sec').scrollIntoView({behavior:'smooth'})">Browse Products</button>
           <button class="btn-ghost" id="dashBtn" style="display:none" onclick="goDashboard()">Dashboard</button>
         </div>
+        <div id="signedInStatus" style="margin-top:-28px;margin-bottom:32px;font-size:13px;color:var(--mut2);font-weight:700"></div>
         <div class="hero-stats">
           <div class="stat"><span class="stat-n" id="countStat">0</span><div class="stat-l">Products</div></div>
           <div class="stat"><span class="stat-n" id="creatorStat">0</span><div class="stat-l">Sellers</div></div>
@@ -451,7 +505,10 @@
 
   <div id="productPage" class="page">
     <nav>
-      <div class="logo" onclick="goStore()">Template<em>z</em></div>
+      <div class="logo" onclick="goStore()">
+        <img src="/logo-favicon.png" alt="Templatez logo" class="logo-img" />
+        <span>Template<em>z</em></span>
+      </div>
       <div class="nav-r">
         <button class="btn-ghost" onclick="goStore()">← Back To Store</button>
         <div id="productNavRight"></div>
@@ -475,7 +532,7 @@
             <div class="p-meta-row"><div class="p-label">Seller</div><div class="p-value" id="productSeller">Seller</div></div>
             <div class="p-meta-row"><div class="p-label">Views</div><div class="p-value" id="productViews">0</div></div>
             <div class="p-meta-row"><div class="p-label">Uploaded</div><div class="p-value" id="productDate">Today</div></div>
-            <div class="p-meta-row"><div class="p-label">Route</div><div class="p-value mono" id="productSlug">#/product/slug</div></div>
+            <div class="p-meta-row"><div class="p-label">URL</div><div class="p-value mono" id="productSlug">/product/slug</div></div>
           </div>
 
           <div class="p-actions">
@@ -500,7 +557,10 @@
 
   <div id="dashboardPage" class="page">
     <nav>
-      <div class="logo" onclick="goStore()">Template<em>z</em></div>
+      <div class="logo" onclick="goStore()">
+        <img src="/logo-favicon.png" alt="Templatez logo" class="logo-img" />
+        <span>Template<em>z</em></span>
+      </div>
       <div class="nav-r">
         <button class="btn-ghost" onclick="goStore()">← Back To Store</button>
         <button class="btn-blue" onclick="doLogout()">Log Out</button>
@@ -596,7 +656,7 @@
               <input class="fi-sm" id="productFile" type="file" />
             </div>
             <div style="font-size:12px;line-height:1.8;color:var(--mut2);margin-bottom:16px">
-              This uploads your images and the sellable file to Firebase Storage, then saves the product in Firebase Realtime Database.
+              Images and the sellable file upload to Firebase Storage. Product details, users, orders, and ranking data live in Realtime Database.
             </div>
             <button class="btn-blue" onclick="uploadProduct()" style="width:100%;padding:12px;font-size:14px;border-radius:12px">Publish Product →</button>
           </div>
@@ -622,7 +682,7 @@
           <div style="flex:1">
             <div class="modal-kicker">Ko-fi Checkout</div>
             <div class="modal-title">Place Order</div>
-            <div class="modal-sub">Customer details auto-fill from the signed-up account. Admin completes the order after verifying the payment.</div>
+            <div class="modal-sub">Customer details auto-fill from the signed-up account. Admin verifies and completes the order before download unlocks.</div>
           </div>
           <button class="modal-close" onclick="closePurchaseModal()">×</button>
         </div>
@@ -650,7 +710,7 @@
           <div class="pay-step"><b>1.</b> Click <b>Open Ko-fi</b>.</div>
           <div class="pay-step"><b>2.</b> Send <b>exactly</b> the amount shown.</div>
           <div class="pay-step"><b>3.</b> Paste the copied note into the Ko-fi message field.</div>
-          <div class="pay-step"><b>4.</b> Submit the order here so it appears in your dashboard.</div>
+          <div class="pay-step"><b>4.</b> Submit the order so it appears in your dashboard.</div>
         </div>
 
         <div class="fg">
@@ -667,7 +727,7 @@
         </div>
 
         <div class="pay-note">
-          This client-only version uses an admin-generated download URL when the order is completed. For stricter one-time protected downloads, add a backend or Cloud Function later.
+          Automatic Ko-fi amount verification is not possible in this plain client-only setup. The admin verifies payment, marks the order complete, and only then the customer can download from their dashboard.
         </div>
 
         <div class="pay-actions">
@@ -692,16 +752,16 @@
   <script src="https://storage.ko-fi.com/cdn/scripts/overlay-widget.js"></script>
 
   <script>
-      const firebaseConfig = {
-    apiKey: "AIzaSyC1vSF2Pv7eM7Z0V6Bm9IuwSCu-yl8Cd8A",
-    authDomain: "templatez-2f17a.firebaseapp.com",
-    databaseURL: "https://templatez-2f17a-default-rtdb.firebaseio.com",
-    projectId: "templatez-2f17a",
-    storageBucket: "templatez-2f17a.firebasestorage.app",
-    messagingSenderId: "993189683572",
-    appId: "1:993189683572:web:84e77409e3876f4e4acc21",
-    measurementId: "G-LQ36SRNZYE"
-  };
+    const firebaseConfig = {
+      apiKey: "AIzaSyC1vSF2Pv7eM7Z0V6Bm9IuwSCu-yl8Cd8A",
+      authDomain: "templatez-2f17a.firebaseapp.com",
+      databaseURL: "https://templatez-2f17a-default-rtdb.firebaseio.com",
+      projectId: "templatez-2f17a",
+      storageBucket: "templatez-2f17a.firebasestorage.app",
+      messagingSenderId: "993189683572",
+      appId: "1:993189683572:web:84e77409e3876f4e4acc21",
+      measurementId: "G-LQ36SRNZYE"
+    };
 
     firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
@@ -709,7 +769,6 @@
     const storage = firebase.storage();
 
     const KOFI_PAGE = "https://ko-fi.com/templatez";
-    const DEFAULT_ADMIN_EMAIL = "admin@templatez.local";
 
     let authMode = "signin";
     let currentUser = null;
@@ -719,7 +778,7 @@
     let allOrders = [];
     let currentFilter = "all";
     let currentPurchase = null;
-    let currentProductId = null;
+    let currentProductSlug = null;
     let currentGallery = [];
     let lastTrackedProductId = null;
 
@@ -754,21 +813,14 @@
       return slugify(name) + "-" + Math.random().toString(36).slice(2,7);
     }
 
-    function money(n){
-      return Number(n) === 0 ? "FREE" : "$" + Number(n).toFixed(0);
+    function navigate(path){
+      history.pushState({}, "", path);
+      route();
     }
 
-    function getRole(){
-  return String(currentProfile?.role || "customer").trim().toLowerCase();
-}
-
-function isAdmin(){
-  return getRole() === "admin";
-}
-
-function canSell(){
-  return getRole() === "seller" || getRole() === "admin";
-}
+    function goStore(){ navigate("/"); }
+    function goAuth(){ navigate("/auth"); }
+    function goDashboard(){ navigate("/dashboard"); }
 
     function setAuthMode(mode){
       authMode = mode;
@@ -781,61 +833,120 @@ function canSell(){
         : "Sign up with username, email, and password. New accounts start as customers.";
     }
 
+    async function ensureUserProfile(user){
+      const userRef = db.ref("users/" + user.uid);
+      const snap = await userRef.once("value");
+
+      if(snap.exists()){
+        const profile = snap.val();
+        const key = String(profile.usernameLower || profile.username || "").toLowerCase().trim();
+        if(key){
+          await db.ref("usernames/" + key).set(user.uid);
+        }
+        return profile;
+      }
+
+      const email = user.email || "";
+      let baseUsername = (email.split("@")[0] || "user").replace(/[^a-zA-Z0-9_]/g, "");
+      if(!baseUsername) baseUsername = "user";
+
+      let username = baseUsername;
+      let usernameLower = username.toLowerCase();
+      let count = 1;
+
+      while(true){
+        const nameSnap = await db.ref("usernames/" + usernameLower).once("value");
+        if(!nameSnap.exists() || nameSnap.val() === user.uid) break;
+        username = baseUsername + count++;
+        usernameLower = username.toLowerCase();
+      }
+
+      const profile = {
+        uid: user.uid,
+        username,
+        usernameLower,
+        email,
+        role: "customer",
+        createdAt: firebase.database.ServerValue.TIMESTAMP
+      };
+
+      await userRef.set(profile);
+      await db.ref("usernames/" + usernameLower).set(user.uid);
+
+      return {
+        uid: user.uid,
+        username,
+        usernameLower,
+        email,
+        role: "customer"
+      };
+    }
+
     async function handleAuth(){
-  const email = document.getElementById("authEmail").value.trim();
-  const password = document.getElementById("authPassword").value;
-  const username = document.getElementById("signupUsername").value.trim();
+      const email = document.getElementById("authEmail").value.trim();
+      const password = document.getElementById("authPassword").value;
+      const username = document.getElementById("signupUsername").value.trim();
 
-  if(authMode === "signin"){
-    if(!email || !password){
-      showErr("Enter your email and password.");
-      return;
+      if(authMode === "signin"){
+        if(!email || !password){
+          showErr("Enter your email and password.");
+          return;
+        }
+
+        try{
+          await auth.signInWithEmailAndPassword(email, password);
+          showToast("Signed in.");
+          navigate("/");
+        }catch(err){
+          showErr(err.message || "Sign in failed.");
+        }
+        return;
+      }
+
+      if(!username || !email || !password){
+        showErr("Username, email, and password are required.");
+        return;
+      }
+
+      const usernameKey = username.toLowerCase();
+
+      try{
+        const existing = await db.ref("usernames/" + usernameKey).once("value");
+        if(existing.exists()){
+          showErr("That username is already taken.");
+          return;
+        }
+
+        const cred = await auth.createUserWithEmailAndPassword(email, password);
+        const uid = cred.user.uid;
+
+        await db.ref("users/" + uid).set({
+          uid,
+          username,
+          usernameLower: usernameKey,
+          email,
+          role: "customer",
+          createdAt: firebase.database.ServerValue.TIMESTAMP
+        });
+
+        await db.ref("usernames/" + usernameKey).set(uid);
+
+        showToast("Account created.");
+        navigate("/");
+      }catch(err){
+        showErr(err.message || "Sign up failed.");
+      }
     }
 
-    try{
-      await auth.signInWithEmailAndPassword(email, password);
-      showToast("Signed in.");
-      location.hash = "#/store";
-    }catch(err){
-      showErr(err.message || "Sign in failed.");
-    }
-    return;
-  }
-
-  if(!username || !email || !password){
-    showErr("Username, email, and password are required.");
-    return;
-  }
-
-  const usernameKey = username.toLowerCase();
-
-  try{
-    const existing = await db.ref("usernames/" + usernameKey).once("value");
-    if(existing.exists()){
-      showErr("That username is already taken.");
-      return;
+    async function doLogout(){
+      await auth.signOut();
+      showToast("Logged out.");
+      navigate("/");
     }
 
-    const cred = await auth.createUserWithEmailAndPassword(email, password);
-    const uid = cred.user.uid;
-
-    await db.ref("users/" + uid).set({
-      uid,
-      username,
-      usernameLower: usernameKey,
-      email,
-      role: "customer",
-      createdAt: firebase.database.ServerValue.TIMESTAMP
-    });
-
-    await db.ref("usernames/" + usernameKey).set(uid);
-
-    showToast("Account created.");
-    location.hash = "#/store";
-  }catch(err){
-    showErr(err.message || "Sign up failed.");
-  }
-}
+    function objectMapToArray(obj){
+      return obj ? Object.entries(obj).map(([id,val]) => ({ id, ...val })) : [];
+    }
 
     async function loadEverything(){
       const [usersSnap, productsSnap, ordersSnap] = await Promise.all([
@@ -849,30 +960,28 @@ function canSell(){
       allOrders = objectMapToArray(ordersSnap.val()).sort((a,b)=>(b.createdAt||0)-(a.createdAt||0));
 
       if(currentUser){
-        const profileSnap = await db.ref("users/" + currentUser.uid).once("value");
-        currentProfile = profileSnap.val();
+        currentProfile = await ensureUserProfile(currentUser);
       }else{
         currentProfile = null;
       }
     }
 
-    function objectMapToArray(obj){
-      return obj ? Object.entries(obj).map(([id,val]) => ({ id, ...val })) : [];
+    function getRole(){
+      return String(currentProfile?.role || "customer").trim().toLowerCase();
+    }
+
+    function isAdmin(){
+      return getRole() === "admin";
+    }
+
+    function canSell(){
+      return getRole() === "seller" || getRole() === "admin";
     }
 
     async function getActivity(){
       if(!currentUser) return { categories:{}, products:{} };
       const snap = await db.ref("activity/" + currentUser.uid).once("value");
       return snap.val() || { categories:{}, products:{} };
-    }
-
-    async function rankProducts(products){
-      if(!currentUser) return [...products].sort((a,b)=>(b.createdAt||0)-(a.createdAt||0));
-      const activity = await getActivity();
-
-      return [...products].sort((a,b)=>{
-        return scoreProduct(b, activity) - scoreProduct(a, activity);
-      });
     }
 
     function scoreProduct(product, activity){
@@ -882,8 +991,14 @@ function canSell(){
       score += (activity.products?.[product.id] || 0) * 80;
       score += (product.views || 0) * 3;
       score += Math.max(0, 500 - Math.floor((Date.now() - (product.createdAt || 0)) / 3600000));
-      if(product.price === 0) score += 10;
+      if(Number(product.price) === 0) score += 10;
       return score;
+    }
+
+    async function rankProducts(products){
+      if(!currentUser) return [...products].sort((a,b)=>(b.createdAt||0)-(a.createdAt||0));
+      const activity = await getActivity();
+      return [...products].sort((a,b)=>scoreProduct(b, activity) - scoreProduct(a, activity));
     }
 
     function updateStats(){
@@ -892,66 +1007,29 @@ function canSell(){
       document.getElementById("salesStat").textContent = allOrders.filter(o=>o.status==="completed").length;
     }
 
-    function renderStoreNav(){
-  const nav = document.getElementById("storeNav");
-  const dashBtn = document.getElementById("dashBtn");
-
-  if(currentUser){
-    const displayName =
-      currentProfile?.username ||
-      currentUser.email?.split("@")[0] ||
-      "Account";
-
-    nav.innerHTML = `
-      <span style="font-size:12px;font-weight:800;color:var(--acc)">● ${escapeHtml(displayName)}</span>
-      <button class="btn-ghost" onclick="goDashboard()">Dashboard</button>
-      <button class="btn-blue" onclick="doLogout()">Log Out</button>
-    `;
-    dashBtn.style.display = "block";
-  } else {
-    nav.innerHTML = `<button class="btn-ghost" onclick="goAuth()">Sign In / Sign Up</button>`;
-    dashBtn.style.display = "none";
-  }
-}
-
     function getCategoryName(cat){
       return cat === "ui" ? "UI Kit" : cat === "sys" ? "System" : cat === "game" ? "Full Game" : "Product";
     }
 
-    async function renderStore(){
-      renderStoreNav();
-      updateStats();
+    function renderStoreNav(){
+      const nav = document.getElementById("storeNav");
+      const dashBtn = document.getElementById("dashBtn");
+      const status = document.getElementById("signedInStatus");
 
-      const titles = {
-        all: "Products",
-        ui: "UI Kits",
-        sys: "Systems",
-        game: "Full Games",
-        free: "Free Products"
-      };
-
-      document.getElementById("gridTitle").textContent = titles[currentFilter] || "Products";
-      document.getElementById("gridSub").textContent = currentUser
-        ? "Ranked for this signed-in user using viewed categories, viewed products, and your own uploads."
-        : "Newest uploads first.";
-
-      let products = await rankProducts(allProducts);
-
-      if(currentFilter === "free") products = products.filter(p=>Number(p.price)===0);
-      else if(currentFilter !== "all") products = products.filter(p=>p.cat===currentFilter);
-
-      const grid = document.getElementById("tgrid");
-      if(!products.length){
-        grid.innerHTML = `
-          <div class="empty" style="grid-column:1/-1">
-            <h3>No products yet</h3>
-            <p>Placeholder items are gone. Upload products from the dashboard and they will appear here.</p>
-          </div>
+      if(currentUser){
+        const displayName = currentProfile?.username || currentUser.email?.split("@")[0] || "Account";
+        nav.innerHTML = `
+          <span style="font-size:12px;font-weight:800;color:var(--acc)">● ${escapeHtml(displayName)} (${escapeHtml(getRole())})</span>
+          <button class="btn-ghost" onclick="goDashboard()">Dashboard</button>
+          <button class="btn-blue" onclick="doLogout()">Log Out</button>
         `;
-        return;
+        dashBtn.style.display = "block";
+        status.textContent = "Signed in as " + displayName;
+      }else{
+        nav.innerHTML = `<button class="btn-ghost" onclick="goAuth()">Sign In / Sign Up</button>`;
+        dashBtn.style.display = "none";
+        status.textContent = "Browsing as guest";
       }
-
-      grid.innerHTML = products.map(renderProductCard).join("");
     }
 
     function renderProductCard(p){
@@ -960,7 +1038,7 @@ function canSell(){
         : `<div class="art-fallback">${escapeHtml((p.name || "P")[0].toUpperCase())}</div>`;
 
       return `
-        <div class="tcard" onclick="openProduct('${p.id}')">
+        <div class="tcard" onclick="openProduct('${p.slug}')">
           <div class="tcard-art">
             ${art}
             ${p.badge ? `<div class="tcard-badge">${escapeHtml(p.badge)}</div>` : ""}
@@ -976,7 +1054,7 @@ function canSell(){
             </div>
             <div class="tcard-ft">
               <div class="tcard-price">${Number(p.price)===0 ? '<span class="fr">FREE</span>' : '$' + Number(p.price).toFixed(0)}</div>
-              <button class="get-btn" onclick="event.stopPropagation();openProduct('${p.id}')">View →</button>
+              <button class="get-btn" onclick="event.stopPropagation();openProduct('${p.slug}')">View →</button>
             </div>
           </div>
         </div>
@@ -987,27 +1065,54 @@ function canSell(){
       currentFilter = cat;
       document.querySelectorAll(".cat").forEach(b=>b.classList.remove("on"));
       document.querySelector(`[data-c="${cat}"]`)?.classList.add("on");
-
       document.querySelectorAll(".nav-links button").forEach(b=>b.classList.remove("active"));
       if(cat==="all") document.querySelectorAll(".nav-links button")[0]?.classList.add("active");
       if(cat==="ui") document.querySelectorAll(".nav-links button")[1]?.classList.add("active");
       if(cat==="sys") document.querySelectorAll(".nav-links button")[2]?.classList.add("active");
       if(cat==="game") document.querySelectorAll(".nav-links button")[3]?.classList.add("active");
-
       renderStore();
     }
 
-    function goStore(){ location.hash = "#/store"; }
-    function goAuth(){ location.hash = "#/auth"; }
-    function goDashboard(){ location.hash = "#/dashboard"; }
+    async function renderStore(){
+      renderStoreNav();
+      updateStats();
 
-    async function doLogout(){
-      await auth.signOut();
-      showToast("Logged out.");
+      const titles = { all:"Products", ui:"UI Kits", sys:"Systems", game:"Full Games", free:"Free Products" };
+      document.getElementById("gridTitle").textContent = titles[currentFilter] || "Products";
+      document.getElementById("gridSub").textContent = currentUser
+        ? "Ranked for this user using viewed categories, viewed products, and your own uploads."
+        : "Newest uploads first.";
+
+      let products = await rankProducts(allProducts);
+
+      if(currentFilter === "free") products = products.filter(p=>Number(p.price)===0);
+      else if(currentFilter !== "all") products = products.filter(p=>p.cat===currentFilter);
+
+      const grid = document.getElementById("tgrid");
+      if(!products.length){
+        grid.innerHTML = `
+          <div class="empty" style="grid-column:1/-1">
+            <h3>No products yet</h3>
+            <p>Placeholder items are gone. Upload products from the dashboard and they will appear here.</p>
+          </div>
+        `;
+      } else {
+        grid.innerHTML = products.map(renderProductCard).join("");
+      }
+
+      setSeo({
+        title: "Templatez - Roblox UI Kits, Systems, and Full Game Templates",
+        description: "Buy premium Roblox UI kits, systems, and full game templates on Templatez. Browse creator-made assets, place orders, and download completed purchases.",
+        path: "/",
+        image: absoluteUrl("/logo-favicon.png"),
+        type: "website"
+      });
+
+      setProductSchema(null);
     }
 
-    function openProduct(id){
-      location.hash = "#/product/" + id;
+    function getProductBySlug(slug){
+      return allProducts.find(p=>p.slug === slug);
     }
 
     async function trackProductView(product){
@@ -1025,15 +1130,15 @@ function canSell(){
       if(found) found.views = (found.views || 0) + 1;
     }
 
-    async function renderProduct(id){
-      const product = allProducts.find(p=>p.id===id);
+    async function renderProduct(slug){
+      const product = getProductBySlug(slug);
       if(!product){
         showToast("Product not found.");
         goStore();
         return;
       }
 
-      currentProductId = id;
+      currentProductSlug = slug;
       await trackProductView(product);
 
       document.getElementById("productNavRight").innerHTML = currentUser
@@ -1047,7 +1152,7 @@ function canSell(){
       document.getElementById("productSeller").textContent = product.sellerUsername || "Seller";
       document.getElementById("productViews").textContent = product.views || 0;
       document.getElementById("productDate").textContent = product.createdAt ? new Date(product.createdAt).toLocaleDateString() : "Today";
-      document.getElementById("productSlug").textContent = "#/product/" + product.id;
+      document.getElementById("productSlug").textContent = "/product/" + product.slug;
       document.getElementById("productDescription").textContent = product.description || "";
 
       const gallery = [product.coverUrl, ...(product.galleryUrls || [])].filter(Boolean);
@@ -1065,6 +1170,15 @@ function canSell(){
 
       document.getElementById("productBuyBtn").textContent = Number(product.price)===0 ? "Get Free" : "Buy With Ko-fi";
 
+      setSeo({
+        title: product.name + " - Templatez",
+        description: product.shortDescription || product.description || "Premium Roblox product on Templatez.",
+        path: "/product/" + product.slug,
+        image: product.coverUrl ? absoluteUrl(product.coverUrl) : absoluteUrl("/logo-favicon.png"),
+        type: "product"
+      });
+
+      setProductSchema(product);
       renderRelatedProducts(product);
     }
 
@@ -1088,9 +1202,9 @@ function canSell(){
       const grid = document.getElementById("relatedGrid");
       if(!related.length){
         grid.innerHTML = `<div class="empty"><p>No related products yet.</p></div>`;
-        return;
+      } else {
+        grid.innerHTML = related.map(renderProductCard).join("");
       }
-      grid.innerHTML = related.map(renderProductCard).join("");
     }
 
     async function copyCurrentProductLink(){
@@ -1103,11 +1217,11 @@ function canSell(){
     }
 
     function buyCurrentProduct(){
-      const product = allProducts.find(p=>p.id===currentProductId);
+      const product = getProductBySlug(currentProductSlug);
       if(!product) return;
 
       if(Number(product.price)===0){
-        showToast("This product is free. Add your free-delivery flow here if you want.");
+        showToast("This product is free. Add your free-delivery flow later if you want.");
         return;
       }
 
@@ -1119,6 +1233,7 @@ function canSell(){
 
       currentPurchase = {
         productId: product.id,
+        productSlug: product.slug,
         productName: product.name,
         price: Number(product.price),
         sellerUid: product.sellerUid,
@@ -1132,7 +1247,6 @@ function canSell(){
       document.getElementById("buyerName").value = currentProfile.username || "";
       document.getElementById("buyerEmail").value = currentProfile.email || "";
       document.getElementById("buyerNote").value = "";
-
       document.getElementById("paymentModal").classList.add("show");
     }
 
@@ -1171,6 +1285,7 @@ function canSell(){
       const orderRef = db.ref("orders").push();
       const order = {
         productId: currentPurchase.productId,
+        productSlug: currentPurchase.productSlug,
         productName: currentPurchase.productName,
         productPrice: currentPurchase.price,
         sellerUid: currentPurchase.sellerUid,
@@ -1190,7 +1305,7 @@ function canSell(){
       await loadEverything();
       closePurchaseModal();
       showToast("Order submitted.");
-      if(location.hash === "#/dashboard") renderDashboard();
+      if(location.pathname === "/dashboard") renderDashboard();
     }
 
     async function uploadProduct(){
@@ -1235,15 +1350,14 @@ function canSell(){
         for(const file of galleryFiles){
           const galleryPath = `product-images/${currentUser.uid}/${productId}/gallery-${Date.now()}-${Math.random().toString(36).slice(2,6)}-${fileSafeName(file.name)}`;
           const gallerySnap = await storage.ref(galleryPath).put(file);
-          const url = await gallerySnap.ref.getDownloadURL();
-          galleryUrls.push(url);
+          galleryUrls.push(await gallerySnap.ref.getDownloadURL());
         }
 
         fileName = fileSafeName(productFile.name);
         filePath = `product-files/${currentUser.uid}/${productId}/${fileName}`;
         await storage.ref(filePath).put(productFile);
 
-        const product = {
+        await db.ref("products/" + productId).set({
           slug,
           name,
           shortDescription,
@@ -1259,9 +1373,8 @@ function canSell(){
           sellerUsername: currentProfile.username,
           createdAt: firebase.database.ServerValue.TIMESTAMP,
           views: 0
-        };
+        });
 
-        await db.ref("products/" + productId).set(product);
         clearUploadForm();
         await loadEverything();
         renderDashboard();
@@ -1315,11 +1428,11 @@ function canSell(){
             <div class="meta">
               ${escapeHtml(getCategoryName(p.cat))}<br>
               ${Number(p.price)===0 ? "Free" : "$" + Number(p.price).toFixed(0)}<br>
-              <span class="mono">#/product/${escapeHtml(p.id)}</span>
+              <span class="mono">/product/${escapeHtml(p.slug)}</span>
             </div>
           </div>
           <div class="action-row">
-            <button class="btn-ghost" onclick="openProduct('${p.id}')">Open</button>
+            <button class="btn-ghost" onclick="openProduct('${p.slug}')">Open</button>
             <button class="btn-bad" onclick="deleteProduct('${p.id}')">Delete</button>
           </div>
         </div>
@@ -1338,7 +1451,7 @@ function canSell(){
         <div class="row-item">
           <div>
             <div style="font-size:14px;font-weight:800">${escapeHtml(u.username || "User")}</div>
-            <span class="badge ${escapeHtml(u.role || "customer")}">${escapeHtml(u.role || "customer")}</span>
+            <span class="badge ${escapeHtml(String(u.role || "customer").toLowerCase())}">${escapeHtml(u.role || "customer")}</span>
             <div class="meta">${escapeHtml(u.email || "")}</div>
           </div>
           <div class="action-row">
@@ -1416,9 +1529,7 @@ function canSell(){
     function getOrdersForDashboard(){
       if(!currentUser || !currentProfile) return [];
       if(isAdmin()) return allOrders;
-      if(canSell()){
-        return allOrders.filter(o => o.sellerUid === currentUser.uid || o.buyerUid === currentUser.uid);
-      }
+      if(canSell()) return allOrders.filter(o => o.sellerUid === currentUser.uid || o.buyerUid === currentUser.uid);
       return allOrders.filter(o => o.buyerUid === currentUser.uid);
     }
 
@@ -1509,68 +1620,117 @@ function canSell(){
     }
 
     function renderDashboard(){
-  const title = document.getElementById("dashTitle");
-  const sub = document.getElementById("dashSub");
+      const title = document.getElementById("dashTitle");
+      const sub = document.getElementById("dashSub");
 
-  if(!currentProfile){
-    title.textContent = "Dashboard";
-    sub.textContent = "No profile loaded";
-  }else{
-    title.textContent = currentProfile.username + "'s Dashboard";
-    sub.textContent = `Role: ${getRole()}`;
-
-    if(isAdmin()){
-      sub.textContent += " | Admin access: manage users, products, and orders";
-    }else if(canSell()){
-      sub.textContent += " | Seller access: upload products and track orders";
-    }else{
-      sub.textContent += " | Customer access: view order status and downloads";
-    }
-  }
-
-  document.getElementById("sellerUploadSection").classList.toggle("hidden", !canSell());
-  renderUsers();
-  renderOwnedProducts();
-  renderOrders();
-}
-
-    function renderAuthPage(){
-      setAuthMode(authMode);
-    }
-
-    async function route(){
-      const hash = location.hash || "#/store";
-	
-	if(hash === "#/auth" && currentUser){
-  location.hash = "#/store";
-  return;
-}
-      if(hash === "#/auth"){
-        showPage("authPage");
-        renderAuthPage();
-        return;
-	
-      }
-
-      if(hash === "#/dashboard"){
-        if(!currentUser){
-          location.hash = "#/auth";
-          return;
+      if(!currentProfile){
+        title.textContent = "Dashboard";
+        sub.textContent = "No profile loaded";
+      }else{
+        title.textContent = currentProfile.username + "'s Dashboard";
+        if(isAdmin()){
+          sub.textContent = "Role: admin | Admin access: manage users, products, and orders";
+        }else if(canSell()){
+          sub.textContent = "Role: seller | Seller access: upload products and track orders";
+        }else{
+          sub.textContent = "Role: customer | Customer access: view order status and download completed files";
         }
-        showPage("dashboardPage");
-        renderDashboard();
+      }
+
+      document.getElementById("sellerUploadSection").classList.toggle("hidden", !canSell());
+      renderUsers();
+      renderOwnedProducts();
+      renderOrders();
+
+      setSeo({
+        title: currentProfile ? currentProfile.username + " Dashboard - Templatez" : "Dashboard - Templatez",
+        description: "Manage your Templatez account, products, orders, and downloads.",
+        path: "/dashboard",
+        image: absoluteUrl("/logo-favicon.png"),
+        type: "website"
+      });
+
+      setProductSchema(null);
+    }
+
+    function openProduct(slug){
+      navigate("/product/" + slug);
+    }
+
+    function absoluteUrl(path){
+      if(String(path).startsWith("http")) return path;
+      return window.location.origin + path;
+    }
+
+    function setMetaAttr(selector, attrName, attrValue, content){
+      let el = document.querySelector(selector);
+      if(!el){
+        el = document.createElement("meta");
+        el.setAttribute(attrName, attrValue);
+        document.head.appendChild(el);
+      }
+      el.setAttribute("content", content);
+    }
+
+    function setSeo({title, description, path, image, type}){
+      document.title = title;
+      let canonical = document.querySelector('link[rel="canonical"]');
+      if(!canonical){
+        canonical = document.createElement("link");
+        canonical.rel = "canonical";
+        document.head.appendChild(canonical);
+      }
+      canonical.href = absoluteUrl(path);
+
+      setMetaAttr('meta[name="description"]', "name", "description", description);
+      setMetaAttr('meta[property="og:title"]', "property", "og:title", title);
+      setMetaAttr('meta[property="og:description"]', "property", "og:description", description);
+      setMetaAttr('meta[property="og:url"]', "property", "og:url", absoluteUrl(path));
+      setMetaAttr('meta[property="og:image"]', "property", "og:image", image);
+      setMetaAttr('meta[property="og:type"]', "property", "og:type", type);
+      setMetaAttr('meta[name="twitter:title"]', "name", "twitter:title", title);
+      setMetaAttr('meta[name="twitter:description"]', "name", "twitter:description", description);
+      setMetaAttr('meta[name="twitter:image"]', "name", "twitter:image", image);
+
+      const org = document.getElementById("orgSchema");
+      const site = document.getElementById("siteSchema");
+      org.textContent = JSON.stringify({
+        "@context":"https://schema.org",
+        "@type":"Organization",
+        "name":"Templatez",
+        "url":absoluteUrl("/"),
+        "logo":absoluteUrl("/logo-favicon.png")
+      });
+      site.textContent = JSON.stringify({
+        "@context":"https://schema.org",
+        "@type":"WebSite",
+        "name":"Templatez",
+        "url":absoluteUrl("/")
+      });
+    }
+
+    function setProductSchema(product){
+      const script = document.getElementById("productSchema");
+      if(!product){
+        script.textContent = JSON.stringify({ "@context":"https://schema.org" });
         return;
       }
 
-      if(hash.startsWith("#/product/")){
-        const id = hash.replace("#/product/","");
-        showPage("productPage");
-        await renderProduct(id);
-        return;
-      }
-
-      showPage("storePage");
-      await renderStore();
+      script.textContent = JSON.stringify({
+        "@context":"https://schema.org",
+        "@type":"Product",
+        "name":product.name,
+        "description":product.shortDescription || product.description || "",
+        "image":[product.coverUrl, ...(product.galleryUrls || [])].filter(Boolean),
+        "brand":{"@type":"Brand","name":"Templatez"},
+        "offers":{
+          "@type":"Offer",
+          "priceCurrency":"USD",
+          "price":String(Number(product.price || 0)),
+          "availability":"https://schema.org/InStock",
+          "url":absoluteUrl("/product/" + product.slug)
+        }
+      });
     }
 
     function showPage(id){
@@ -1578,32 +1738,73 @@ function canSell(){
       document.getElementById(id).classList.add("active");
     }
 
-auth.onAuthStateChanged(async user=>{
-  currentUser = user;
-  currentProfile = null;
-  lastTrackedProductId = null;
+    async function route(){
+      const path = window.location.pathname || "/";
 
-  if(currentUser){
-    const profileSnap = await db.ref("users/" + currentUser.uid).once("value");
-    currentProfile = profileSnap.val();
-  }
+      if(path === "/auth"){
+        if(currentUser){
+          navigate("/");
+          return;
+        }
+        showPage("authPage");
+        setSeo({
+          title: "Sign In - Templatez",
+          description: "Sign in or create an account on Templatez.",
+          path: "/auth",
+          image: absoluteUrl("/logo-favicon.png"),
+          type: "website"
+        });
+        setProductSchema(null);
+        return;
+      }
 
-  await loadEverything();
-  renderStoreNav();
+      if(path === "/dashboard"){
+        if(!currentUser){
+          navigate("/auth");
+          return;
+        }
+        showPage("dashboardPage");
+        renderDashboard();
+        return;
+      }
 
-  if(user && (!location.hash || location.hash === "#/auth")){
-    location.hash = "#/store";
-    return;
-  }
+      if(path.startsWith("/product/")){
+        const slug = decodeURIComponent(path.replace("/product/",""));
+        showPage("productPage");
+        await renderProduct(slug);
+        return;
+      }
 
-  if(!user && location.hash === "#/dashboard"){
-    location.hash = "#/auth";
-    return;
-  }
+      showPage("storePage");
+      await renderStore();
+    }
 
-  await route();
-});
-    window.addEventListener("hashchange", route);
+    auth.onAuthStateChanged(async user=>{
+      currentUser = user;
+      currentProfile = null;
+      lastTrackedProductId = null;
+
+      if(currentUser){
+        currentProfile = await ensureUserProfile(currentUser);
+      }
+
+      await loadEverything();
+      renderStoreNav();
+
+      if(user && location.pathname === "/auth"){
+        navigate("/");
+        return;
+      }
+
+      if(!user && location.pathname === "/dashboard"){
+        navigate("/auth");
+        return;
+      }
+
+      await route();
+    });
+
+    window.addEventListener("popstate", route);
 
     document.addEventListener("keydown", e=>{
       if(e.key === "Enter" && document.getElementById("authPage").classList.contains("active")){
@@ -1618,7 +1819,7 @@ auth.onAuthStateChanged(async user=>{
       "floating-chat.donateButton.text-color": "#fff"
     });
 
-    if(!location.hash) location.hash = "#/store";
+    route();
   </script>
 </body>
 </html>
