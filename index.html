@@ -20,12 +20,12 @@
   <meta property="og:title" content="Templatez - Roblox UI Kits, Systems, and Full Game Templates" />
   <meta property="og:description" content="Browse premium Roblox UI kits, systems, and full game templates on Templatez." />
   <meta property="og:url" content="/" />
-  <meta property="og:image" content="/logo-favicon.png" />
+  <meta property="og:image" content="https://raw.githubusercontent.com/pepsimekhi2/rblxTemplatez/ebe6a1b5eac1e0e9e34547b8c3363858753c8bc2/Logo-Favicon.png" />
 
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Templatez - Roblox UI Kits, Systems, and Full Game Templates" />
   <meta name="twitter:description" content="Browse premium Roblox UI kits, systems, and full game templates on Templatez." />
-  <meta name="twitter:image" content="/logo-favicon.png" />
+  <meta name="twitter:image" content="https://raw.githubusercontent.com/pepsimekhi2/rblxTemplatez/ebe6a1b5eac1e0e9e34547b8c3363858753c8bc2/Logo-Favicon.png" />
 
   <script type="application/ld+json" id="orgSchema">
   {
@@ -33,7 +33,7 @@
     "@type": "Organization",
     "name": "Templatez",
     "url": "/",
-    "logo": "/logo-favicon.png"
+    "logo": "https://raw.githubusercontent.com/pepsimekhi2/rblxTemplatez/ebe6a1b5eac1e0e9e34547b8c3363858753c8bc2/Logo-Favicon.png"
   }
   </script>
 
@@ -290,6 +290,7 @@
     .p-panel h3{font-size:18px;font-weight:900;margin-bottom:12px}
     .p-panel p{font-size:14px;line-height:1.85;color:var(--mut2)}
 
+    .dash-wrap{max-width:1220px;margin:0 auto;padding:48px 40px}
     .dash-top{
       display:flex;justify-content:space-between;align-items:center;
       margin-bottom:28px;padding-bottom:24px;border-bottom:1px solid var(--bdr)
@@ -398,7 +399,7 @@
   <div id="authPage" class="page">
     <nav>
       <div class="logo" onclick="goStore()">
-        <img src="/logo-favicon.png" alt="Templatez logo" class="logo-img" />
+        <img src="https://raw.githubusercontent.com/pepsimekhi2/rblxTemplatez/ebe6a1b5eac1e0e9e34547b8c3363858753c8bc2/Logo-Favicon.png" alt="Templatez logo" class="logo-img" />
         <span>Template<em>z</em></span>
       </div>
       <div class="nav-r"><span style="font-size:12px;font-weight:700;color:var(--mut);letter-spacing:.06em;text-transform:uppercase">Account Access</span></div>
@@ -448,7 +449,7 @@
   <div id="storePage" class="page">
     <nav>
       <div class="logo" onclick="goStore()">
-        <img src="/logo-favicon.png" alt="Templatez logo" class="logo-img" />
+        <img src="https://raw.githubusercontent.com/pepsimekhi2/rblxTemplatez/ebe6a1b5eac1e0e9e34547b8c3363858753c8bc2/Logo-Favicon.png" alt="Templatez logo" class="logo-img" />
         <span>Template<em>z</em></span>
       </div>
       <div class="nav-links">
@@ -506,7 +507,7 @@
   <div id="productPage" class="page">
     <nav>
       <div class="logo" onclick="goStore()">
-        <img src="/logo-favicon.png" alt="Templatez logo" class="logo-img" />
+        <img src="https://raw.githubusercontent.com/pepsimekhi2/rblxTemplatez/ebe6a1b5eac1e0e9e34547b8c3363858753c8bc2/Logo-Favicon.png" alt="Templatez logo" class="logo-img" />
         <span>Template<em>z</em></span>
       </div>
       <div class="nav-r">
@@ -558,7 +559,7 @@
   <div id="dashboardPage" class="page">
     <nav>
       <div class="logo" onclick="goStore()">
-        <img src="/logo-favicon.png" alt="Templatez logo" class="logo-img" />
+        <img src="https://raw.githubusercontent.com/pepsimekhi2/rblxTemplatez/ebe6a1b5eac1e0e9e34547b8c3363858753c8bc2/Logo-Favicon.png" alt="Templatez logo" class="logo-img" />
         <span>Template<em>z</em></span>
       </div>
       <div class="nav-r">
@@ -752,6 +753,8 @@
   <script src="https://storage.ko-fi.com/cdn/scripts/overlay-widget.js"></script>
 
   <script>
+    const LOGO_URL = "https://raw.githubusercontent.com/pepsimekhi2/rblxTemplatez/ebe6a1b5eac1e0e9e34547b8c3363858753c8bc2/Logo-Favicon.png";
+
     const firebaseConfig = {
       apiKey: "AIzaSyC1vSF2Pv7eM7Z0V6Bm9IuwSCu-yl8Cd8A",
       authDomain: "templatez-2f17a.firebaseapp.com",
@@ -892,7 +895,6 @@
           showErr("Enter your email and password.");
           return;
         }
-
         try{
           await auth.signInWithEmailAndPassword(email, password);
           showToast("Signed in.");
@@ -1104,7 +1106,7 @@
         title: "Templatez - Roblox UI Kits, Systems, and Full Game Templates",
         description: "Browse premium Roblox UI kits, systems, and full game templates on Templatez. Discover creator-made assets, place orders, and download completed purchases.",
         path: "/",
-        image: absoluteUrl("/logo-favicon.png"),
+        image: LOGO_URL,
         type: "website"
       });
 
@@ -1174,7 +1176,7 @@
         title: product.name + " - Templatez",
         description: product.shortDescription || product.description || "Premium Roblox product on Templatez.",
         path: "/product/" + product.slug,
-        image: product.coverUrl ? absoluteUrl(product.coverUrl) : absoluteUrl("/logo-favicon.png"),
+        image: product.coverUrl || LOGO_URL,
         type: "product"
       });
 
@@ -1647,7 +1649,7 @@
         title: currentProfile ? currentProfile.username + " Dashboard - Templatez" : "Dashboard - Templatez",
         description: "Manage your Templatez account, products, orders, and downloads.",
         path: "/dashboard",
-        image: absoluteUrl("/logo-favicon.png"),
+        image: LOGO_URL,
         type: "website"
       });
 
@@ -1698,7 +1700,7 @@
         "@type":"Organization",
         "name":"Templatez",
         "url":absoluteUrl("/"),
-        "logo":absoluteUrl("/logo-favicon.png")
+        "logo": LOGO_URL
       });
 
       document.getElementById("siteSchema").textContent = JSON.stringify({
@@ -1751,7 +1753,7 @@
           title: "Sign In - Templatez",
           description: "Sign in or create an account on Templatez.",
           path: "/auth",
-          image: absoluteUrl("/logo-favicon.png"),
+          image: LOGO_URL,
           type: "website"
         });
         setProductSchema(null);
