@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <title>Templatez - Roblox UI Kits, Systems, and Full Game Templates</title>
-  <meta name="description" content="Buy premium Roblox UI kits, systems, and full game templates on Templatez. Browse creator-made assets, place orders, and download completed purchases." />
+  <meta name="description" content="Browse premium Roblox UI kits, systems, and full game templates on Templatez. Discover creator-made assets, place orders, and download completed purchases." />
   <meta name="keywords" content="Roblox templates, Roblox UI kits, Roblox systems, Roblox full game templates, Roblox marketplace, Templatez" />
   <meta name="author" content="Templatez" />
   <meta name="robots" content="index, follow, max-image-preview:large" />
@@ -18,13 +18,13 @@
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="Templatez" />
   <meta property="og:title" content="Templatez - Roblox UI Kits, Systems, and Full Game Templates" />
-  <meta property="og:description" content="Buy premium Roblox UI kits, systems, and full game templates on Templatez." />
+  <meta property="og:description" content="Browse premium Roblox UI kits, systems, and full game templates on Templatez." />
   <meta property="og:url" content="/" />
   <meta property="og:image" content="/logo-favicon.png" />
 
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Templatez - Roblox UI Kits, Systems, and Full Game Templates" />
-  <meta name="twitter:description" content="Buy premium Roblox UI kits, systems, and full game templates on Templatez." />
+  <meta name="twitter:description" content="Browse premium Roblox UI kits, systems, and full game templates on Templatez." />
   <meta name="twitter:image" content="/logo-favicon.png" />
 
   <script type="application/ld+json" id="orgSchema">
@@ -409,7 +409,7 @@
         <div class="lb-top">
           <div class="lb-icon">🔐</div>
           <div class="lb-title">Welcome To Templatez</div>
-          <div class="lb-sub">Customers, sellers, and admins all use this same login page</div>
+          <div class="lb-sub">Sign in or create an account to buy, sell, and manage orders</div>
         </div>
         <div class="lb-body">
           <div class="auth-tabs">
@@ -465,7 +465,7 @@
       <div style="position:relative;z-index:1">
         <div class="hero-tag">Roblox Template Marketplace</div>
         <h1 class="hero-h">Build Games<br><span class="glow">Way Faster.</span></h1>
-        <p class="hero-sub">Each product has its own SEO-friendly page with images, seller info, price, description, and an order flow powered by Firebase.</p>
+        <p class="hero-sub">Premium Roblox UI kits, systems, and full game templates built to help you launch faster and build better.</p>
         <div class="hero-btns">
           <button class="btn-blue" onclick="document.querySelector('.grid-sec').scrollIntoView({behavior:'smooth'})">Browse Products</button>
           <button class="btn-ghost" id="dashBtn" style="display:none" onclick="goDashboard()">Dashboard</button>
@@ -656,7 +656,7 @@
               <input class="fi-sm" id="productFile" type="file" />
             </div>
             <div style="font-size:12px;line-height:1.8;color:var(--mut2);margin-bottom:16px">
-              Images and the sellable file upload to Firebase Storage. Product details, users, orders, and ranking data live in Realtime Database.
+              Upload your cover image, gallery images, and the product file customers receive after an order is completed.
             </div>
             <button class="btn-blue" onclick="uploadProduct()" style="width:100%;padding:12px;font-size:14px;border-radius:12px">Publish Product →</button>
           </div>
@@ -682,7 +682,7 @@
           <div style="flex:1">
             <div class="modal-kicker">Ko-fi Checkout</div>
             <div class="modal-title">Place Order</div>
-            <div class="modal-sub">Customer details auto-fill from the signed-up account. Admin verifies and completes the order before download unlocks.</div>
+            <div class="modal-sub">Your account details auto-fill here. After payment is reviewed, completed orders can be downloaded from your dashboard.</div>
           </div>
           <button class="modal-close" onclick="closePurchaseModal()">×</button>
         </div>
@@ -727,7 +727,7 @@
         </div>
 
         <div class="pay-note">
-          Automatic Ko-fi amount verification is not possible in this plain client-only setup. The admin verifies payment, marks the order complete, and only then the customer can download from their dashboard.
+          Use the exact amount shown above and include the copied note in your Ko-fi message so the order can be matched correctly.
         </div>
 
         <div class="pay-actions">
@@ -1019,7 +1019,7 @@
       if(currentUser){
         const displayName = currentProfile?.username || currentUser.email?.split("@")[0] || "Account";
         nav.innerHTML = `
-          <span style="font-size:12px;font-weight:800;color:var(--acc)">● ${escapeHtml(displayName)} (${escapeHtml(getRole())})</span>
+          <span style="font-size:12px;font-weight:800;color:var(--acc)">● ${escapeHtml(displayName)}</span>
           <button class="btn-ghost" onclick="goDashboard()">Dashboard</button>
           <button class="btn-blue" onclick="doLogout()">Log Out</button>
         `;
@@ -1080,7 +1080,7 @@
       const titles = { all:"Products", ui:"UI Kits", sys:"Systems", game:"Full Games", free:"Free Products" };
       document.getElementById("gridTitle").textContent = titles[currentFilter] || "Products";
       document.getElementById("gridSub").textContent = currentUser
-        ? "Ranked for this user using viewed categories, viewed products, and your own uploads."
+        ? "Showing products based on what you browse most, plus your own uploads first."
         : "Newest uploads first.";
 
       let products = await rankProducts(allProducts);
@@ -1093,7 +1093,7 @@
         grid.innerHTML = `
           <div class="empty" style="grid-column:1/-1">
             <h3>No products yet</h3>
-            <p>Placeholder items are gone. Upload products from the dashboard and they will appear here.</p>
+            <p>Upload products from the dashboard and they will appear here.</p>
           </div>
         `;
       } else {
@@ -1102,7 +1102,7 @@
 
       setSeo({
         title: "Templatez - Roblox UI Kits, Systems, and Full Game Templates",
-        description: "Buy premium Roblox UI kits, systems, and full game templates on Templatez. Browse creator-made assets, place orders, and download completed purchases.",
+        description: "Browse premium Roblox UI kits, systems, and full game templates on Templatez. Discover creator-made assets, place orders, and download completed purchases.",
         path: "/",
         image: absoluteUrl("/logo-favicon.png"),
         type: "website"
@@ -1221,7 +1221,7 @@
       if(!product) return;
 
       if(Number(product.price)===0){
-        showToast("This product is free. Add your free-delivery flow later if you want.");
+        showToast("This product is free.");
         return;
       }
 
@@ -1468,6 +1468,7 @@
       await db.ref("users/" + uid + "/role").set(role);
       await loadEverything();
       renderDashboard();
+      renderStoreNav();
       showToast("Role updated.");
     }
 
@@ -1629,11 +1630,11 @@
       }else{
         title.textContent = currentProfile.username + "'s Dashboard";
         if(isAdmin()){
-          sub.textContent = "Role: admin | Admin access: manage users, products, and orders";
+          sub.textContent = "Admin access: manage users, products, and orders";
         }else if(canSell()){
-          sub.textContent = "Role: seller | Seller access: upload products and track orders";
+          sub.textContent = "Seller access: upload products and track orders";
         }else{
-          sub.textContent = "Role: customer | Customer access: view order status and download completed files";
+          sub.textContent = "Customer access: view order status and download completed files";
         }
       }
 
@@ -1692,16 +1693,15 @@
       setMetaAttr('meta[name="twitter:description"]', "name", "twitter:description", description);
       setMetaAttr('meta[name="twitter:image"]', "name", "twitter:image", image);
 
-      const org = document.getElementById("orgSchema");
-      const site = document.getElementById("siteSchema");
-      org.textContent = JSON.stringify({
+      document.getElementById("orgSchema").textContent = JSON.stringify({
         "@context":"https://schema.org",
         "@type":"Organization",
         "name":"Templatez",
         "url":absoluteUrl("/"),
         "logo":absoluteUrl("/logo-favicon.png")
       });
-      site.textContent = JSON.stringify({
+
+      document.getElementById("siteSchema").textContent = JSON.stringify({
         "@context":"https://schema.org",
         "@type":"WebSite",
         "name":"Templatez",
