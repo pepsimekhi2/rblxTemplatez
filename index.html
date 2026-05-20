@@ -290,7 +290,6 @@
     .p-panel h3{font-size:18px;font-weight:900;margin-bottom:12px}
     .p-panel p{font-size:14px;line-height:1.85;color:var(--mut2)}
 
-    .dash-wrap{max-width:1220px;margin:0 auto;padding:48px 40px}
     .dash-top{
       display:flex;justify-content:space-between;align-items:center;
       margin-bottom:28px;padding-bottom:24px;border-bottom:1px solid var(--bdr)
@@ -320,8 +319,8 @@
     .badge.completed{color:var(--ok);background:var(--okbg)}
     .badge.rejected{color:var(--bad);background:var(--badbg)}
     .action-row{display:flex;gap:8px;flex-wrap:wrap}
-    .upload-card{background:var(--s1);border:1px solid var(--bdr);border-radius:16px;padding:28px}
     .upload-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+    .hint{font-size:12px;color:var(--mut);font-weight:600;margin-top:6px;line-height:1.7}
 
     .modal-wrap{
       position:fixed;inset:0;display:none;align-items:center;justify-content:center;
@@ -645,21 +644,21 @@
 
           <div>
             <div class="fg">
-              <label class="flbl">Cover Image File</label>
-              <input class="fi-sm" id="coverFile" type="file" accept="image/*" />
+              <label class="flbl">Cover Image URL</label>
+              <input class="fi-sm" id="tCoverUrl" type="url" placeholder="https://i.imgur.com/..." />
+              <div class="hint">Paste a direct image link (Imgur, Discord CDN, etc.)</div>
             </div>
             <div class="fg">
-              <label class="flbl">Gallery Images</label>
-              <input class="fi-sm" id="galleryFiles" type="file" accept="image/*" multiple />
+              <label class="flbl">Gallery Image URLs</label>
+              <textarea class="ta-sm" id="tGalleryUrls" placeholder="One URL per line&#10;https://i.imgur.com/img1.png&#10;https://i.imgur.com/img2.png" style="min-height:80px"></textarea>
+              <div class="hint">One URL per line. Optional.</div>
             </div>
             <div class="fg">
-              <label class="flbl">Product File For Buyers</label>
-              <input class="fi-sm" id="productFile" type="file" />
+              <label class="flbl">Product Download URL</label>
+              <input class="fi-sm" id="tFileUrl" type="url" placeholder="https://drive.google.com/..." />
+              <div class="hint">Google Drive, Dropbox, or any direct download link. Buyers only see this after order is completed.</div>
             </div>
-            <div style="font-size:12px;line-height:1.8;color:var(--mut2);margin-bottom:16px">
-              Upload your cover image, gallery images, and the product file customers receive after an order is completed.
-            </div>
-            <button class="btn-blue" onclick="uploadProduct()" style="width:100%;padding:12px;font-size:14px;border-radius:12px">Publish Product →</button>
+            <button class="btn-blue" onclick="uploadProduct()" style="width:100%;padding:12px;font-size:14px;border-radius:12px;margin-top:8px">Publish Product →</button>
           </div>
         </div>
       </div>
@@ -749,7 +748,6 @@
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-storage-compat.js"></script>
   <script src="https://storage.ko-fi.com/cdn/scripts/overlay-widget.js"></script>
 
   <script>
@@ -769,7 +767,6 @@
     firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
     const db = firebase.database();
-    const storage = firebase.storage();
 
     const KOFI_PAGE = "https://ko-fi.com/templatez";
 
@@ -802,10 +799,6 @@
 
     function escapeHtml(str){
       return String(str ?? "").replace(/[&<>"']/g,m=>({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[m]));
-    }
-
-    function fileSafeName(name){
-      return String(name || "file").replace(/[^a-zA-Z0-9._-]/g,"_");
     }
 
     function slugify(str){
@@ -843,9 +836,7 @@
       if(snap.exists()){
         const profile = snap.val();
         const key = String(profile.usernameLower || profile.username || "").toLowerCase().trim();
-        if(key){
-          await db.ref("usernames/" + key).set(user.uid);
-        }
+        if(key) await db.ref("usernames/" + key).set(user.uid);
         return profile;
       }
 
@@ -876,13 +867,7 @@
       await userRef.set(profile);
       await db.ref("usernames/" + usernameLower).set(user.uid);
 
-      return {
-        uid: user.uid,
-        username,
-        usernameLower,
-        email,
-        role: "customer"
-      };
+      return { uid: user.uid, username, usernameLower, email, role: "customer" };
     }
 
     async function handleAuth(){
@@ -891,53 +876,34 @@
       const username = document.getElementById("signupUsername").value.trim();
 
       if(authMode === "signin"){
-        if(!email || !password){
-          showErr("Enter your email and password.");
-          return;
-        }
+        if(!email || !password){ showErr("Enter your email and password."); return; }
         try{
           await auth.signInWithEmailAndPassword(email, password);
           showToast("Signed in.");
           navigate("/");
-        }catch(err){
-          showErr(err.message || "Sign in failed.");
-        }
+        }catch(err){ showErr(err.message || "Sign in failed."); }
         return;
       }
 
-      if(!username || !email || !password){
-        showErr("Username, email, and password are required.");
-        return;
-      }
+      if(!username || !email || !password){ showErr("Username, email, and password are required."); return; }
 
       const usernameKey = username.toLowerCase();
-
       try{
         const existing = await db.ref("usernames/" + usernameKey).once("value");
-        if(existing.exists()){
-          showErr("That username is already taken.");
-          return;
-        }
+        if(existing.exists()){ showErr("That username is already taken."); return; }
 
         const cred = await auth.createUserWithEmailAndPassword(email, password);
         const uid = cred.user.uid;
 
         await db.ref("users/" + uid).set({
-          uid,
-          username,
-          usernameLower: usernameKey,
-          email,
-          role: "customer",
+          uid, username, usernameLower: usernameKey, email, role: "customer",
           createdAt: firebase.database.ServerValue.TIMESTAMP
         });
-
         await db.ref("usernames/" + usernameKey).set(uid);
 
         showToast("Account created.");
         navigate("/");
-      }catch(err){
-        showErr(err.message || "Sign up failed.");
-      }
+      }catch(err){ showErr(err.message || "Sign up failed."); }
     }
 
     async function doLogout(){
@@ -961,24 +927,13 @@
       allProducts = objectMapToArray(productsSnap.val()).sort((a,b)=>(b.createdAt||0)-(a.createdAt||0));
       allOrders = objectMapToArray(ordersSnap.val()).sort((a,b)=>(b.createdAt||0)-(a.createdAt||0));
 
-      if(currentUser){
-        currentProfile = await ensureUserProfile(currentUser);
-      }else{
-        currentProfile = null;
-      }
+      if(currentUser) currentProfile = await ensureUserProfile(currentUser);
+      else currentProfile = null;
     }
 
-    function getRole(){
-      return String(currentProfile?.role || "customer").trim().toLowerCase();
-    }
-
-    function isAdmin(){
-      return getRole() === "admin";
-    }
-
-    function canSell(){
-      return getRole() === "seller" || getRole() === "admin";
-    }
+    function getRole(){ return String(currentProfile?.role || "customer").trim().toLowerCase(); }
+    function isAdmin(){ return getRole() === "admin"; }
+    function canSell(){ return getRole() === "seller" || getRole() === "admin"; }
 
     async function getActivity(){
       if(!currentUser) return { categories:{}, products:{} };
@@ -1086,7 +1041,6 @@
         : "Newest uploads first.";
 
       let products = await rankProducts(allProducts);
-
       if(currentFilter === "free") products = products.filter(p=>Number(p.price)===0);
       else if(currentFilter !== "all") products = products.filter(p=>p.cat===currentFilter);
 
@@ -1104,18 +1058,13 @@
 
       setSeo({
         title: "Templatez - Roblox UI Kits, Systems, and Full Game Templates",
-        description: "Browse premium Roblox UI kits, systems, and full game templates on Templatez. Discover creator-made assets, place orders, and download completed purchases.",
-        path: "/",
-        image: LOGO_URL,
-        type: "website"
+        description: "Browse premium Roblox UI kits, systems, and full game templates on Templatez.",
+        path: "/", image: LOGO_URL, type: "website"
       });
-
       setProductSchema(null);
     }
 
-    function getProductBySlug(slug){
-      return allProducts.find(p=>p.slug === slug);
-    }
+    function getProductBySlug(slug){ return allProducts.find(p=>p.slug === slug); }
 
     async function trackProductView(product){
       if(lastTrackedProductId === product.id) return;
@@ -1134,11 +1083,7 @@
 
     async function renderProduct(slug){
       const product = getProductBySlug(slug);
-      if(!product){
-        showToast("Product not found.");
-        goStore();
-        return;
-      }
+      if(!product){ showToast("Product not found."); goStore(); return; }
 
       currentProductSlug = slug;
       await trackProductView(product);
@@ -1150,7 +1095,9 @@
       document.getElementById("productCategoryPill").textContent = getCategoryName(product.cat);
       document.getElementById("productTitle").textContent = product.name;
       document.getElementById("productShort").textContent = product.shortDescription || "";
-      document.getElementById("productPrice").innerHTML = Number(product.price)===0 ? "<span style='color:var(--acc)'>FREE</span>" : "$" + Number(product.price).toFixed(0);
+      document.getElementById("productPrice").innerHTML = Number(product.price)===0
+        ? "<span style='color:var(--acc)'>FREE</span>"
+        : "$" + Number(product.price).toFixed(0);
       document.getElementById("productSeller").textContent = product.sellerUsername || "Seller";
       document.getElementById("productViews").textContent = product.views || 0;
       document.getElementById("productDate").textContent = product.createdAt ? new Date(product.createdAt).toLocaleDateString() : "Today";
@@ -1202,30 +1149,21 @@
         .slice(0,3);
 
       const grid = document.getElementById("relatedGrid");
-      if(!related.length){
-        grid.innerHTML = `<div class="empty"><p>No related products yet.</p></div>`;
-      } else {
-        grid.innerHTML = related.map(renderProductCard).join("");
-      }
+      grid.innerHTML = related.length
+        ? related.map(renderProductCard).join("")
+        : `<div class="empty"><p>No related products yet.</p></div>`;
     }
 
     async function copyCurrentProductLink(){
-      try{
-        await navigator.clipboard.writeText(location.href);
-        showToast("Product link copied.");
-      }catch{
-        showToast("Could not copy link.");
-      }
+      try{ await navigator.clipboard.writeText(location.href); showToast("Product link copied."); }
+      catch{ showToast("Could not copy link."); }
     }
 
     function buyCurrentProduct(){
       const product = getProductBySlug(currentProductSlug);
       if(!product) return;
 
-      if(Number(product.price)===0){
-        showToast("This product is free.");
-        return;
-      }
+      if(Number(product.price)===0){ showToast("This product is free."); return; }
 
       if(!currentUser || !currentProfile){
         showToast("Sign in first to place an order.");
@@ -1257,19 +1195,13 @@
       currentPurchase = null;
     }
 
-    function openKofiPage(){
-      window.open(KOFI_PAGE, "_blank", "noopener");
-    }
+    function openKofiPage(){ window.open(KOFI_PAGE, "_blank", "noopener"); }
 
     async function copyPaymentNote(){
       if(!currentPurchase) return;
       const note = `Templatez order | ${currentPurchase.productName} | $${currentPurchase.price} | Seller: ${currentPurchase.sellerUsername} | Ref: ${currentPurchase.ref}`;
-      try{
-        await navigator.clipboard.writeText(note);
-        showToast("Payment note copied.");
-      }catch{
-        showToast("Could not copy the note.");
-      }
+      try{ await navigator.clipboard.writeText(note); showToast("Payment note copied."); }
+      catch{ showToast("Could not copy the note."); }
     }
 
     async function submitOrder(){
@@ -1279,13 +1211,10 @@
       const buyerEmail = document.getElementById("buyerEmail").value.trim();
       const buyerNote = document.getElementById("buyerNote").value.trim();
 
-      if(!buyerName || !buyerEmail){
-        showToast("Username and email are required.");
-        return;
-      }
+      if(!buyerName || !buyerEmail){ showToast("Username and email are required."); return; }
 
       const orderRef = db.ref("orders").push();
-      const order = {
+      await orderRef.set({
         productId: currentPurchase.productId,
         productSlug: currentPurchase.productSlug,
         productName: currentPurchase.productName,
@@ -1301,9 +1230,8 @@
         createdAt: firebase.database.ServerValue.TIMESTAMP,
         downloadUrl: "",
         downloadFileName: ""
-      };
+      });
 
-      await orderRef.set(order);
       await loadEverything();
       closePurchaseModal();
       showToast("Order submitted.");
@@ -1322,55 +1250,33 @@
       const cat = document.getElementById("tCat").value;
       const price = Math.max(0, Number(document.getElementById("tPrice").value || 0));
       const badge = document.getElementById("tBadge").value.trim();
-      const coverFile = document.getElementById("coverFile").files[0];
-      const galleryFiles = Array.from(document.getElementById("galleryFiles").files || []);
-      const productFile = document.getElementById("productFile").files[0];
+      const coverUrl = document.getElementById("tCoverUrl").value.trim();
+      const galleryRaw = document.getElementById("tGalleryUrls").value.trim();
+      const fileUrl = document.getElementById("tFileUrl").value.trim();
 
       if(!name || !shortDescription || !description){
         showToast("Name, short description, and full description are required.");
         return;
       }
-      if(!productFile){
-        showToast("Upload the actual product file.");
+      if(!fileUrl){
+        showToast("A product download URL is required.");
         return;
       }
 
+      const galleryUrls = galleryRaw
+        ? galleryRaw.split("\n").map(u=>u.trim()).filter(u=>u.length > 0)
+        : [];
+
       const productId = db.ref("products").push().key;
       const slug = makeSlug(name);
-      let coverUrl = "";
-      let galleryUrls = [];
-      let filePath = "";
-      let fileName = "";
 
       try{
-        if(coverFile){
-          const coverPath = `product-images/${currentUser.uid}/${productId}/cover-${Date.now()}-${fileSafeName(coverFile.name)}`;
-          const coverSnap = await storage.ref(coverPath).put(coverFile);
-          coverUrl = await coverSnap.ref.getDownloadURL();
-        }
-
-        for(const file of galleryFiles){
-          const galleryPath = `product-images/${currentUser.uid}/${productId}/gallery-${Date.now()}-${Math.random().toString(36).slice(2,6)}-${fileSafeName(file.name)}`;
-          const gallerySnap = await storage.ref(galleryPath).put(file);
-          galleryUrls.push(await gallerySnap.ref.getDownloadURL());
-        }
-
-        fileName = fileSafeName(productFile.name);
-        filePath = `product-files/${currentUser.uid}/${productId}/${fileName}`;
-        await storage.ref(filePath).put(productFile);
-
         await db.ref("products/" + productId).set({
-          slug,
-          name,
-          shortDescription,
-          description,
-          cat,
-          price,
+          slug, name, shortDescription, description, cat, price,
           badge: badge || "New",
           coverUrl,
           galleryUrls,
-          filePath,
-          fileName,
+          downloadUrl: fileUrl,
           sellerUid: currentUser.uid,
           sellerUsername: currentProfile.username,
           createdAt: firebase.database.ServerValue.TIMESTAMP,
@@ -1383,12 +1289,12 @@
         renderStore();
         showToast("Product published.");
       }catch(err){
-        showToast(err.message || "Upload failed.");
+        showToast(err.message || "Publish failed.");
       }
     }
 
     function clearUploadForm(){
-      ["tName","tShort","tDesc","tPrice","tBadge","coverFile","galleryFiles","productFile"].forEach(id=>{
+      ["tName","tShort","tDesc","tPrice","tBadge","tCoverUrl","tGalleryUrls","tFileUrl"].forEach(id=>{
         const el = document.getElementById(id);
         if(el) el.value = "";
       });
@@ -1402,7 +1308,6 @@
         showToast("You cannot delete that product.");
         return;
       }
-
       await db.ref("products/" + id).remove();
       await loadEverything();
       renderDashboard();
@@ -1412,16 +1317,10 @@
 
     function renderOwnedProducts(){
       const wrap = document.getElementById("ownedProducts");
-      if(!currentUser || !currentProfile){
-        wrap.innerHTML = `<div class="empty"><p>Sign in first.</p></div>`;
-        return;
-      }
+      if(!currentUser || !currentProfile){ wrap.innerHTML = `<div class="empty"><p>Sign in first.</p></div>`; return; }
 
       const mine = allProducts.filter(p=>p.sellerUid === currentUser.uid);
-      if(!mine.length){
-        wrap.innerHTML = `<div class="empty"><p>You have not uploaded any products yet.</p></div>`;
-        return;
-      }
+      if(!mine.length){ wrap.innerHTML = `<div class="empty"><p>You have not uploaded any products yet.</p></div>`; return; }
 
       wrap.innerHTML = mine.map(p=>`
         <div class="row-item">
@@ -1443,10 +1342,7 @@
 
     function renderUsers(){
       const card = document.getElementById("adminUserCards");
-      if(!isAdmin()){
-        card.classList.add("hidden");
-        return;
-      }
+      if(!isAdmin()){ card.classList.add("hidden"); return; }
       card.classList.remove("hidden");
 
       document.getElementById("userList").innerHTML = allUsers.map(u=>`
@@ -1475,27 +1371,18 @@
     }
 
     async function createUserByAdmin(){
-      if(!isAdmin()){
-        showToast("Admin only.");
-        return;
-      }
+      if(!isAdmin()){ showToast("Admin only."); return; }
 
       const username = document.getElementById("newUser").value.trim();
       const email = document.getElementById("newUserEmail").value.trim();
       const password = document.getElementById("newPass").value;
       const role = document.getElementById("newRole").value;
 
-      if(!username || !email || !password){
-        showToast("Fill in all fields.");
-        return;
-      }
+      if(!username || !email || !password){ showToast("Fill in all fields."); return; }
 
       const usernameKey = username.toLowerCase();
       const existing = await db.ref("usernames/" + usernameKey).once("value");
-      if(existing.exists()){
-        showToast("Username already exists.");
-        return;
-      }
+      if(existing.exists()){ showToast("Username already exists."); return; }
 
       try{
         const secondary = firebase.initializeApp(firebase.app().options, "secondary-" + Date.now());
@@ -1504,11 +1391,7 @@
         const uid = cred.user.uid;
 
         await db.ref("users/" + uid).set({
-          uid,
-          username,
-          usernameLower: usernameKey,
-          email,
-          role,
+          uid, username, usernameLower: usernameKey, email, role,
           createdAt: firebase.database.ServerValue.TIMESTAMP
         });
         await db.ref("usernames/" + usernameKey).set(uid);
@@ -1524,9 +1407,7 @@
         await loadEverything();
         renderDashboard();
         showToast("User created.");
-      }catch(err){
-        showToast(err.message || "Could not create user.");
-      }
+      }catch(err){ showToast(err.message || "Could not create user."); }
     }
 
     function getOrdersForDashboard(){
@@ -1540,10 +1421,7 @@
       const wrap = document.getElementById("ordersList");
       const orders = getOrdersForDashboard();
 
-      if(!orders.length){
-        wrap.innerHTML = `<div class="empty"><p>No orders yet.</p></div>`;
-        return;
-      }
+      if(!orders.length){ wrap.innerHTML = `<div class="empty"><p>No orders yet.</p></div>`; return; }
 
       wrap.innerHTML = orders.map(o=>{
         const canDownload = o.status === "completed" && o.buyerUid === currentUser?.uid && o.downloadUrl;
@@ -1554,7 +1432,7 @@
         ` : "";
 
         const downloadBtn = canDownload
-          ? `<button class="btn-blue" onclick="downloadOrderFile('${o.downloadUrl}')">Download</button>`
+          ? `<a href="${escapeHtml(o.downloadUrl)}" target="_blank" rel="noopener" class="btn-blue" style="text-decoration:none;padding:9px 18px;border-radius:24px;font-size:13px;font-weight:800">Download</a>`
           : "";
 
         return `
@@ -1591,35 +1469,21 @@
       if(!isAdmin()) return;
 
       const order = allOrders.find(o=>o.id===id);
-      if(!order){
-        showToast("Order not found.");
-        return;
-      }
+      if(!order){ showToast("Order not found."); return; }
 
       const product = allProducts.find(p=>p.id===order.productId);
-      if(!product || !product.filePath){
-        showToast("Product file missing.");
-        return;
-      }
+      if(!product || !product.downloadUrl){ showToast("Product download URL missing."); return; }
 
       try{
-        const downloadUrl = await storage.ref(product.filePath).getDownloadURL();
         await db.ref("orders/" + id).update({
           status: "completed",
-          downloadUrl,
-          downloadFileName: product.fileName || "",
+          downloadUrl: product.downloadUrl,
           completedAt: firebase.database.ServerValue.TIMESTAMP
         });
         await loadEverything();
         renderDashboard();
         showToast("Order completed.");
-      }catch(err){
-        showToast(err.message || "Could not complete order.");
-      }
-    }
-
-    function downloadOrderFile(url){
-      window.open(url, "_blank", "noopener");
+      }catch(err){ showToast(err.message || "Could not complete order."); }
     }
 
     function renderDashboard(){
@@ -1631,13 +1495,9 @@
         sub.textContent = "No profile loaded";
       }else{
         title.textContent = currentProfile.username + "'s Dashboard";
-        if(isAdmin()){
-          sub.textContent = "Admin access: manage users, products, and orders";
-        }else if(canSell()){
-          sub.textContent = "Seller access: upload products and track orders";
-        }else{
-          sub.textContent = "Customer access: view order status and download completed files";
-        }
+        if(isAdmin()) sub.textContent = "Admin access: manage users, products, and orders";
+        else if(canSell()) sub.textContent = "Seller access: upload products and track orders";
+        else sub.textContent = "Customer access: view order status and download completed files";
       }
 
       document.getElementById("sellerUploadSection").classList.toggle("hidden", !canSell());
@@ -1648,17 +1508,12 @@
       setSeo({
         title: currentProfile ? currentProfile.username + " Dashboard - Templatez" : "Dashboard - Templatez",
         description: "Manage your Templatez account, products, orders, and downloads.",
-        path: "/dashboard",
-        image: LOGO_URL,
-        type: "website"
+        path: "/dashboard", image: LOGO_URL, type: "website"
       });
-
       setProductSchema(null);
     }
 
-    function openProduct(slug){
-      navigate("/product/" + slug);
-    }
+    function openProduct(slug){ navigate("/product/" + slug); }
 
     function absoluteUrl(path){
       if(String(path).startsWith("http")) return path;
@@ -1667,22 +1522,14 @@
 
     function setMetaAttr(selector, attrName, attrValue, content){
       let el = document.querySelector(selector);
-      if(!el){
-        el = document.createElement("meta");
-        el.setAttribute(attrName, attrValue);
-        document.head.appendChild(el);
-      }
+      if(!el){ el = document.createElement("meta"); el.setAttribute(attrName, attrValue); document.head.appendChild(el); }
       el.setAttribute("content", content);
     }
 
     function setSeo({title, description, path, image, type}){
       document.title = title;
       let canonical = document.querySelector('link[rel="canonical"]');
-      if(!canonical){
-        canonical = document.createElement("link");
-        canonical.rel = "canonical";
-        document.head.appendChild(canonical);
-      }
+      if(!canonical){ canonical = document.createElement("link"); canonical.rel = "canonical"; document.head.appendChild(canonical); }
       canonical.href = absoluteUrl(path);
 
       setMetaAttr('meta[name="description"]', "name", "description", description);
@@ -1696,38 +1543,26 @@
       setMetaAttr('meta[name="twitter:image"]', "name", "twitter:image", image);
 
       document.getElementById("orgSchema").textContent = JSON.stringify({
-        "@context":"https://schema.org",
-        "@type":"Organization",
-        "name":"Templatez",
-        "url":absoluteUrl("/"),
-        "logo": LOGO_URL
+        "@context":"https://schema.org","@type":"Organization","name":"Templatez",
+        "url":absoluteUrl("/"),"logo":LOGO_URL
       });
-
       document.getElementById("siteSchema").textContent = JSON.stringify({
-        "@context":"https://schema.org",
-        "@type":"WebSite",
-        "name":"Templatez",
-        "url":absoluteUrl("/")
+        "@context":"https://schema.org","@type":"WebSite","name":"Templatez","url":absoluteUrl("/")
       });
     }
 
     function setProductSchema(product){
       const script = document.getElementById("productSchema");
-      if(!product){
-        script.textContent = JSON.stringify({ "@context":"https://schema.org" });
-        return;
-      }
+      if(!product){ script.textContent = JSON.stringify({ "@context":"https://schema.org" }); return; }
 
       script.textContent = JSON.stringify({
-        "@context":"https://schema.org",
-        "@type":"Product",
+        "@context":"https://schema.org","@type":"Product",
         "name":product.name,
         "description":product.shortDescription || product.description || "",
         "image":[product.coverUrl, ...(product.galleryUrls || [])].filter(Boolean),
         "brand":{"@type":"Brand","name":"Templatez"},
         "offers":{
-          "@type":"Offer",
-          "priceCurrency":"USD",
+          "@type":"Offer","priceCurrency":"USD",
           "price":String(Number(product.price || 0)),
           "availability":"https://schema.org/InStock",
           "url":absoluteUrl("/product/" + product.slug)
@@ -1744,27 +1579,15 @@
       const path = window.location.pathname || "/";
 
       if(path === "/auth"){
-        if(currentUser){
-          navigate("/");
-          return;
-        }
+        if(currentUser){ navigate("/"); return; }
         showPage("authPage");
-        setSeo({
-          title: "Sign In - Templatez",
-          description: "Sign in or create an account on Templatez.",
-          path: "/auth",
-          image: LOGO_URL,
-          type: "website"
-        });
+        setSeo({ title:"Sign In - Templatez", description:"Sign in or create an account on Templatez.", path:"/auth", image:LOGO_URL, type:"website" });
         setProductSchema(null);
         return;
       }
 
       if(path === "/dashboard"){
-        if(!currentUser){
-          navigate("/auth");
-          return;
-        }
+        if(!currentUser){ navigate("/auth"); return; }
         showPage("dashboardPage");
         renderDashboard();
         return;
@@ -1786,22 +1609,13 @@
       currentProfile = null;
       lastTrackedProductId = null;
 
-      if(currentUser){
-        currentProfile = await ensureUserProfile(currentUser);
-      }
+      if(currentUser) currentProfile = await ensureUserProfile(currentUser);
 
       await loadEverything();
       renderStoreNav();
 
-      if(user && location.pathname === "/auth"){
-        navigate("/");
-        return;
-      }
-
-      if(!user && location.pathname === "/dashboard"){
-        navigate("/auth");
-        return;
-      }
+      if(user && location.pathname === "/auth"){ navigate("/"); return; }
+      if(!user && location.pathname === "/dashboard"){ navigate("/auth"); return; }
 
       await route();
     });
@@ -1809,9 +1623,7 @@
     window.addEventListener("popstate", route);
 
     document.addEventListener("keydown", e=>{
-      if(e.key === "Enter" && document.getElementById("authPage").classList.contains("active")){
-        handleAuth();
-      }
+      if(e.key === "Enter" && document.getElementById("authPage").classList.contains("active")) handleAuth();
     });
 
     kofiWidgetOverlay.draw("templatez", {
